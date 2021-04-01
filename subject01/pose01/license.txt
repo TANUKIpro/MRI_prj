@@ -1,0 +1,13 @@
+MRI Hand Dataset, by Bohan Wang, George Matcuk, Jernej Barbic.
+(C) University of Southern California, 2020. All right reserved.
+
+This dataset is owned by the University of Southern California.
+It is licensed under a Creative Commons Attribution 4.0 International License. 
+http://creativecommons.org/licenses/by/4.0/
+
+Please use the following to attribute / acknowledge our work:
+
+  Bohan Wang, George Matcuk, Jernej Barbic:
+  Hand MRI dataset, University of Southern California, 2020.
+  http://www.jernejbarbic.com/hand-mri-dataset
+

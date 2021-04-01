@@ -1,0 +1,2 @@
+from : http://barbic.usc.edu/hand-mri-dataset/download.php
+paper: https://core.ac.uk/download/pdf/11150093.pdf
