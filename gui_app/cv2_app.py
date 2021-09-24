@@ -4,6 +4,7 @@ import time
 
 import cv2
 import numpy as np
+from numpy.core.numeric import Inf
 from natsort import natsorted
 
 from cv2_gadget import Mouse
@@ -41,9 +42,10 @@ def show_info(img, msg, org,
 if __name__=="__main__":
     #初期設定
     win_name = "indicated"
-    img_path = "/Users/ryotaro/Desktop/MRI_prj/subject01/pose01"
+    img_path = "C:/Users/ryota/Desktop/MRI_prj/subject01/pose01"
+    #img_path = "/Users/ryotaro/Desktop/MRI_prj/subject01/pose01"
 
-    #引数で指定したディレクトリ内の画像ファイルを取得
+    #ディレクトリ内の画像ファイルを取得
     png_files = natsorted([i for i in os.listdir(img_path) if ".png" in i])
 
     cv2.namedWindow(win_name, cv2.WINDOW_NORMAL)
@@ -62,7 +64,7 @@ if __name__=="__main__":
             if mouse.getEvent() == SIGNAL_CLICK_ON:
                 #クリックした場所から最も近い輪郭配列のインデックスを取得
                 clicked_point = mouse.getCoord()
-                min_addr = [fINF, fINF]
+                min_cluster, min_clusterAddr = None, fINF
                 for i, cnt in enumerate(contours):
                     try:
                         row, _, column = cnt.shape
@@ -74,11 +76,11 @@ if __name__=="__main__":
                     diff = cnt - clicked_point
                     distance = np.sqrt(diff[:,0]**2 + diff[:,1]**2)
                     cnt_ShortestDistance = np.argmin(distance)
-                    if min_addr[0] > cnt_ShortestDistance:
-                        min_addr = cnt_ShortestDistance, i
+                    if min_clusterAddr > cnt_ShortestDistance:
+                        min_cluster, min_clusterAddr = i, cnt_ShortestDistance
                 
                 #クリック箇所の色付け
-                rep_cnt = contours[min_addr[1]]
+                rep_cnt = contours[min_cluster]
                 indicated_img = draw_contour(indicated_img, rep_cnt, color=(255,0,0), fill_option=-1)
             
             key = cv2.waitKey(1) & 0xFF
