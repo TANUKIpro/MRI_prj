@@ -42,8 +42,8 @@ def show_info(img, msg, org,
 if __name__=="__main__":
     #初期設定
     win_name = "indicated"
-    img_path = "C:/Users/ryota/Desktop/MRI_prj/subject01/pose01"
-    #img_path = "/Users/ryotaro/Desktop/MRI_prj/subject01/pose01"
+    #img_path = "C:/Users/ryota/Desktop/MRI_prj/subject01/pose01"
+    img_path = "/Users/ryotaro/Desktop/MRI_prj/subject01/pose01"
 
     #ディレクトリ内の画像ファイルを取得
     png_files = natsorted([i for i in os.listdir(img_path) if ".png" in i])
@@ -64,7 +64,7 @@ if __name__=="__main__":
             if mouse.getEvent() == SIGNAL_CLICK_ON:
                 #クリックした場所から最も近い輪郭配列のインデックスを取得
                 clicked_point = mouse.getCoord()
-                min_cluster, min_clusterAddr = None, fINF
+                min_cluster, min_range = None, fINF
                 for i, cnt in enumerate(contours):
                     try:
                         row, _, column = cnt.shape
@@ -75,9 +75,10 @@ if __name__=="__main__":
                     cnt = cnt.reshape((row, column))
                     diff = cnt - clicked_point
                     distance = np.sqrt(diff[:,0]**2 + diff[:,1]**2)
-                    cnt_ShortestDistance = np.argmin(distance)
-                    if min_clusterAddr > cnt_ShortestDistance:
-                        min_cluster, min_clusterAddr = i, cnt_ShortestDistance
+                    cnt_ShortestDistance = np.min(distance)
+                    if min_range > cnt_ShortestDistance:
+                        min_range   = cnt_ShortestDistance
+                        min_cluster = i
                 
                 #クリック箇所の色付け
                 rep_cnt = contours[min_cluster]
